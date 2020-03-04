@@ -15,7 +15,6 @@ namespace Box.MyCollections
         private int size;
         static readonly T[] emptyArray = new T[0];
 
-        #region Constructors
         public FighterCollection()
         {
             items = emptyArray;
@@ -28,8 +27,6 @@ namespace Box.MyCollections
             else
                 items = new T[capacity];
         }
-        #endregion
-        #region Properties
         public int Capacity 
         {
             get
@@ -61,17 +58,6 @@ namespace Box.MyCollections
             }
         }
         public int Count { get { return size; }  }
-        //public T Current
-        //{
-        //    get { return current; }
-        //}
-
-        //object IEnumerator.Current
-        //{
-        //    get { return Current; }
-        //}
-        #endregion
-        #region Logic
         public void Add(T item)
         {
             if (size == items.Length) EnsureCapacity(size + 1);
@@ -90,7 +76,33 @@ namespace Box.MyCollections
             }
             items[size] = default(T);
         }
-        
+        public T Find(Predicate<T> match)
+        {
+            //if (match == null)
+            //{
+            //    ThrowHelper.ThrowArgumentNullException(ExceptionArgument.match);
+            //}
+            //Contract.EndContractBlock();
+
+            for (int i = 0; i < size; i++)
+            {
+                if (match(items[i]))
+                {
+                    return items[i];
+                }
+            }
+            return default(T);
+        }
+        //public int IndexOf(T item)
+        //{
+        //    //Contract.Ensures(Contract.Result<int>() >= -1);
+        //    //Contract.Ensures(Contract.Result<int>() < Count);
+        //    return Array.IndexOf(items, item, 0, size);
+        //}
+        public T Choose(int index)
+        {
+            return items[index];
+        }
         public void Clear()
         {
             if (size > 0)
@@ -99,8 +111,6 @@ namespace Box.MyCollections
                 size = 0;
             }
         }
-        #endregion
-        #region Helpers
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
@@ -109,28 +119,6 @@ namespace Box.MyCollections
         {
             return new Enumerator<T>(items);
         }
-
-        //void IDisposable.Dispose() { }
-
-        //public bool MoveNext()
-        //{
-        //    if (++index >= size)
-        //    {
-        //        return false;
-        //    }
-        //    else
-        //    {
-        //        current = items[index];
-        //    }
-        //    return true;
-        //}
-        
-
-        //public void Reset()
-        //{
-        //    index = 0;
-        //    current = default(T);
-        //}
 
         private void EnsureCapacity(int min)
         {
@@ -141,7 +129,6 @@ namespace Box.MyCollections
                 Capacity = newCapacity;
             }
         }
-        #endregion
     }
     public struct Enumerator<T> : IEnumerator<T>, System.Collections.IEnumerator
     {
@@ -162,23 +149,12 @@ namespace Box.MyCollections
 
         public bool MoveNext()
         {
-
-            //T[] localList = list;
-
-            //if (version == localList._version && ((uint)index < (uint)localList._size))
-            //{
-            //    current = localList._items[index];
-            //    index++;
-            //    return true;
-            //}
-            //return MoveNextRare();
             if (++index >= list.Length)
             {
                 return false;
             }
             else
             {
-                // Set current box to next item in collection.
                 current = list[index];
             }
             return true;
@@ -203,7 +179,7 @@ namespace Box.MyCollections
 
         void System.Collections.IEnumerator.Reset()
         {
-            index = 0;
+            index = -1;
             current = default(T);
         }
 

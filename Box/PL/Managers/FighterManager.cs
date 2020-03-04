@@ -10,7 +10,6 @@ namespace Box.PL.Managers
     public class FighterManager
     {
         private readonly FighterService fighterService = new FighterService();
-
         public void Start()
         {
             for (; ; )
@@ -27,8 +26,13 @@ namespace Box.PL.Managers
                     case "2":
                         Show();
                         break;
-                        
+                    case "3":
+                        Remove();
+                        break;
+
                 }
+                Console.ReadKey();
+                Console.Clear();
             }
         }
         private void Create()
@@ -43,15 +47,41 @@ namespace Box.PL.Managers
             int height = Int32.Parse(Console.ReadLine());
             Console.WriteLine("Input weight: ");
             int weight = Int32.Parse(Console.ReadLine());
-            Console.WriteLine("Input health: ");
-            int health = Int32.Parse(Console.ReadLine());
-            Console.WriteLine("Input maximal damage: ");
-            int maxDamage = Int32.Parse(Console.ReadLine());
-            fighterService.CreateFighter(name, nationality, height, weight, health, maxDamage, age);
+            fighterService.CreateFighter(name, nationality, height, weight, age);
         }
         private void Show()
         {
-            fighterService.ShowFighters();
+            var collect = fighterService.ShowFighters();
+            if (collect.Count == 0)
+            {
+                Console.WriteLine("Сначала создайте бойца");
+            }
+            else
+            {
+                foreach (var item in collect)
+                {
+                    Console.WriteLine($"Имя: {item.Name}\n" +
+                                      $"Национальность: {item.Nationality}\n" +
+                                      $"Возраст: {item.Age}\n" +
+                                      $"Рост: {item.Height}\n" +
+                                      $"Вес: {item.Weight}\n");
+                }
+            }
         }
+        private void Remove()
+        {
+            Console.WriteLine("Введите номер бойца которго нужно удалить: ");
+            fighterService.RemuveFighter(Int32.Parse(Console.ReadLine()));
+        }
+        public void Fight()
+        {
+            Console.WriteLine("Введите номер вашего бойца: ");
+            var myFighter = fighterService.ChooseFighter(Int32.Parse(Console.ReadLine()));
+            Console.WriteLine("Введите номер соперникаы: ");
+            var enemyFighter = fighterService.ChooseFighter(Int32.Parse(Console.ReadLine()));
+            fighterService.StartFight(myFighter,enemyFighter);
+        }
+
+
     }
 }

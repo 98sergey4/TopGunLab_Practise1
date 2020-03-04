@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace Box.Models
     {
         public int Height { get; set; }
         public int Weight { get; set; }
+        public int Damage { get; set; }
         public int Health { get; set; }
-        public int MaxDamage { get; set; }
     }
 }

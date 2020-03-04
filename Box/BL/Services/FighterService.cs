@@ -11,26 +11,48 @@ namespace Box.BL.Services
 {
     public class FighterService : IFighterService
     {
+        private const int health = 100; 
         private FighterCollection<Fighter> fighters = new FighterCollection<Fighter>();
-        public void CreateFighter(string name, string nationality, int height, int weight, int health, int maxDamage, int age)
+        public void CreateFighter(string name, string nationality, int height, int weight, int age)
         {
             Fighter fighter = new Fighter
             {
+                Health = health,
                 Name = name,
                 Nationality = nationality,
                 Height = height,
                 Weight = weight,
-                Health = health,
-                MaxDamage = maxDamage,
                 Age = age
             };
             fighters.Add(fighter);
         }
-        public void ShowFighters()
+        public FighterCollection<Fighter> ShowFighters()
         {
-            foreach (Fighter fighter in fighters)
+            return fighters;
+        }
+
+        public void RemuveFighter(int index)
+        {
+            fighters.RemoveAt(index);
+        }
+
+        public Fighter ChooseFighter(int fighter)
+        {
+            return fighters.Choose(fighter);
+        }
+        public static int FighterDamage()
+        {
+            Random rnd = new Random();
+            int value = rnd.Next(0, 10);
+            return value;
+        }
+        public void StartFight(Fighter myFighter,Fighter enemyFighter)
+        {
+            Random rnd = new Random();
+            int value = rnd.Next(0, 10);
+            if (value < 5)
             {
-                Console.WriteLine(fighter.Name +" "+ fighter.Age);
+
             }
         }
     }
