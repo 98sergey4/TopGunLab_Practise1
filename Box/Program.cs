@@ -11,7 +11,8 @@ namespace Box
     {
         static void Main(string[] args)
         {
-            FighterManager?.Start();
+            FighterManager box = new FighterManager();
+            box.Start();
         }
     }
 }

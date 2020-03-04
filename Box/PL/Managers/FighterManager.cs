@@ -16,7 +16,7 @@ namespace Box.PL.Managers
             for (; ; )
             {
                 Console.WriteLine("1.Create fighter;\n" + 
-                                  "2.Show smth\n");
+                                  "2.Show;\n");
                 string input = Console.ReadLine();
 
                 switch (input)
@@ -24,6 +24,10 @@ namespace Box.PL.Managers
                     case "1":
                         Create();
                         break;
+                    case "2":
+                        Show();
+                        break;
+                        
                 }
             }
         }
@@ -44,6 +48,10 @@ namespace Box.PL.Managers
             Console.WriteLine("Input maximal damage: ");
             int maxDamage = Int32.Parse(Console.ReadLine());
             fighterService.CreateFighter(name, nationality, height, weight, health, maxDamage, age);
+        }
+        private void Show()
+        {
+            fighterService.ShowFighters();
         }
     }
 }
