@@ -14,8 +14,10 @@ namespace Box.PL.Managers
         {
             for (; ; )
             {
-                Console.WriteLine("1.Create fighter;\n" + 
-                                  "2.Show;\n");
+                Console.WriteLine("1.Создать бойца;\n" + 
+                                  "2.Показать список бойцов;\n" +
+                                  "3.Удалить бойца;\n" +
+                                  "4.Начать бой;\n");
                 string input = Console.ReadLine();
 
                 switch (input)
@@ -29,6 +31,9 @@ namespace Box.PL.Managers
                     case "3":
                         Remove();
                         break;
+                    case "4":
+                        Fight();
+                        break;
 
                 }
                 Console.ReadKey();
@@ -37,15 +42,15 @@ namespace Box.PL.Managers
         }
         private void Create()
         {
-            Console.WriteLine("Input name: ");
+            Console.WriteLine("Имя: ");
             string name = Console.ReadLine();
-            Console.WriteLine("Input nationality: ");
+            Console.WriteLine("Национальность: ");
             string nationality = Console.ReadLine();
-            Console.WriteLine("Input age: ");
+            Console.WriteLine("Возраст: ");
             int age = Int32.Parse(Console.ReadLine());
-            Console.WriteLine("Input height: ");
+            Console.WriteLine("Рост: ");
             int height = Int32.Parse(Console.ReadLine());
-            Console.WriteLine("Input weight: ");
+            Console.WriteLine("Вес: ");
             int weight = Int32.Parse(Console.ReadLine());
             fighterService.CreateFighter(name, nationality, height, weight, age);
         }
@@ -60,28 +65,50 @@ namespace Box.PL.Managers
             {
                 foreach (var item in collect)
                 {
-                    Console.WriteLine($"Имя: {item.Name}\n" +
-                                      $"Национальность: {item.Nationality}\n" +
-                                      $"Возраст: {item.Age}\n" +
-                                      $"Рост: {item.Height}\n" +
-                                      $"Вес: {item.Weight}\n");
+                    if (item != null)
+                    {
+                        Console.WriteLine($"Number: {fighterService.GetNumber(item)}\n" +
+                                          $"Имя: {item.Name}\n" +
+                                          $"Национальность: {item.Nationality}\n" +
+                                          $"Возраст: {item.Age}\n" +
+                                          $"Рост: {item.Height}\n" +
+                                          $"Вес: {item.Weight}\n");
+                    }
+                    else
+                        break;
                 }
             }
         }
         private void Remove()
         {
             Console.WriteLine("Введите номер бойца которго нужно удалить: ");
-            fighterService.RemuveFighter(Int32.Parse(Console.ReadLine()));
+            if (!fighterService.RemuveFighter(Int32.Parse(Console.ReadLine())))
+            {
+                Console.WriteLine("Неверно введен номер бойца!");
+            }
+            else
+                Console.WriteLine("Боец удален!");
         }
         public void Fight()
         {
-            Console.WriteLine("Введите номер вашего бойца: ");
-            var myFighter = fighterService.ChooseFighter(Int32.Parse(Console.ReadLine()));
-            Console.WriteLine("Введите номер соперникаы: ");
-            var enemyFighter = fighterService.ChooseFighter(Int32.Parse(Console.ReadLine()));
-            fighterService.StartFight(myFighter,enemyFighter);
+            if (fighterService.CheckFighters())
+            {
+                Console.WriteLine("Введите номер вашего бойца: ");
+                var myFighter = fighterService.ChooseFighter(Int32.Parse(Console.ReadLine()));
+                Console.WriteLine($"Ваш боец:{myFighter.Name}");
+                Console.WriteLine("Введите номер соперникаы: ");
+                var enemyFighter = fighterService.ChooseFighter(Int32.Parse(Console.ReadLine()));
+                fighterService.Winner += WhoWin;
+                fighterService.StartFight(myFighter, enemyFighter);
+            }
+            else
+                Console.WriteLine("Нужно создать не менее двух бойцов!");
         }
 
+        public static void WhoWin(string msg)
+        {
+            Console.WriteLine(msg);
+        }
 
     }
 }

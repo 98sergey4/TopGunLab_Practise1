@@ -47,6 +47,7 @@
     <Compile Include="BL\Services\FighterService.cs" />
     <Compile Include="Models\BaseHuman.cs" />
     <Compile Include="Models\Fighter.cs" />
+    <Compile Include="MyCollections\Enumerator.cs" />
     <Compile Include="MyCollections\FighterCollection.cs" />
     <Compile Include="PL\Managers\FighterManager.cs" />
     <Compile Include="Program.cs" />

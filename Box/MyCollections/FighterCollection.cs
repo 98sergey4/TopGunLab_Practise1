@@ -10,7 +10,7 @@ namespace Box.MyCollections
 {
     public class FighterCollection<T>: IEnumerable<T>
     {
-        private const int defaultCapacity = 2;
+        private const int defaultCapacity = 4;
         private T[] items;
         private int size;
         static readonly T[] emptyArray = new T[0];
@@ -27,6 +27,7 @@ namespace Box.MyCollections
             else
                 items = new T[capacity];
         }
+        
         public int Capacity 
         {
             get
@@ -58,6 +59,7 @@ namespace Box.MyCollections
             }
         }
         public int Count { get { return size; }  }
+
         public void Add(T item)
         {
             if (size == items.Length) EnsureCapacity(size + 1);
@@ -76,29 +78,10 @@ namespace Box.MyCollections
             }
             items[size] = default(T);
         }
-        public T Find(Predicate<T> match)
+        public int IndexOf(T item)
         {
-            //if (match == null)
-            //{
-            //    ThrowHelper.ThrowArgumentNullException(ExceptionArgument.match);
-            //}
-            //Contract.EndContractBlock();
-
-            for (int i = 0; i < size; i++)
-            {
-                if (match(items[i]))
-                {
-                    return items[i];
-                }
-            }
-            return default(T);
+            return Array.IndexOf(items, item, 0, size);
         }
-        //public int IndexOf(T item)
-        //{
-        //    //Contract.Ensures(Contract.Result<int>() >= -1);
-        //    //Contract.Ensures(Contract.Result<int>() < Count);
-        //    return Array.IndexOf(items, item, 0, size);
-        //}
         public T Choose(int index)
         {
             return items[index];
@@ -130,58 +113,5 @@ namespace Box.MyCollections
             }
         }
     }
-    public struct Enumerator<T> : IEnumerator<T>, System.Collections.IEnumerator
-    {
-        private T[] list;
-        private int index;
-        private T current;
-
-        public Enumerator(T[] list)
-        {
-            this.list = list;
-            index = -1;
-            current = default(T);
-        }
-
-        public void Dispose()
-        {
-        }
-
-        public bool MoveNext()
-        {
-            if (++index >= list.Length)
-            {
-                return false;
-            }
-            else
-            {
-                current = list[index];
-            }
-            return true;
-        }
-
-
-        public T Current
-        {
-            get
-            {
-                return current;
-            }
-        }
-
-        Object System.Collections.IEnumerator.Current
-        {
-            get
-            {
-                return Current;
-            }
-        }
-
-        void System.Collections.IEnumerator.Reset()
-        {
-            index = -1;
-            current = default(T);
-        }
-
-    }
+    
 }

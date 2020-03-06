@@ -6,17 +6,16 @@ using System.Threading.Tasks;
 
 namespace Box.MyCollections
 {
-
-    public class Enumerator<T> : IEnumerator<T>, System.Collections.IEnumerator
+    public struct Enumerator<T> : IEnumerator<T>, System.Collections.IEnumerator
     {
-        private FighterCollection<T> list;
+        private T[] list;
         private int index;
         private T current;
 
-        internal Enumerator(FighterCollection<T> list)
+        public Enumerator(T[] list)
         {
             this.list = list;
-            index = 0;
+            index = -1;
             current = default(T);
         }
 
@@ -26,29 +25,18 @@ namespace Box.MyCollections
 
         public bool MoveNext()
         {
-
-            FighterCollection<T> localList = list;
-
-            //if (version == localList._version && ((uint)index < (uint)localList._size))
-            //{
-            //    current = localList._items[index];
-            //    index++;
-            //    return true;
-            //}
-            //return MoveNextRare();
-            if (++index >= list.Count)
+            if (++index >= list.Length)
             {
                 return false;
             }
             else
             {
-                // Set current box to next item in collection.
                 current = list[index];
             }
             return true;
         }
 
-        
+
         public T Current
         {
             get
@@ -67,10 +55,9 @@ namespace Box.MyCollections
 
         void System.Collections.IEnumerator.Reset()
         {
-            index = 0;
+            index = -1;
             current = default(T);
         }
 
     }
 }
-
