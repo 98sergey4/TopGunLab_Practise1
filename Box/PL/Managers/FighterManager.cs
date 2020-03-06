@@ -67,7 +67,7 @@ namespace Box.PL.Managers
                 {
                     if (item != null)
                     {
-                        Console.WriteLine($"Number: {fighterService.GetNumber(item)}\n" +
+                        Console.WriteLine($"Номер: {fighterService.GetNumber(item)}\n" +
                                           $"Имя: {item.Name}\n" +
                                           $"Национальность: {item.Nationality}\n" +
                                           $"Возраст: {item.Age}\n" +
